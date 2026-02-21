@@ -2,12 +2,16 @@ import express from "express";
 import cors from "cors";
 import multer from "multer";
 import Tesseract from "tesseract.js";
+import dotenv from "dotenv";
+
+dotenv.config();
+const port = process.env.port || 5000;
 
 const app = express();
 const upload = multer(); // memory storage by default
 
 app.use(cors());
-const port = 5000; 
+
 
 app.get("/", (req, res) => {
   res.send("✅ OCR API is running");
@@ -52,4 +56,4 @@ app.post("/extract", upload.single("file"), async (req, res) => {
   }
 });
 
-app.listen(process.env.port, () => console.log("🚀 Server running on http://localhost:5000"));
+app.listen(port, () => console.log("🚀 Server running on http://localhost:5000"));
