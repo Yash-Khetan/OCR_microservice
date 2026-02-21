@@ -7,6 +7,7 @@ const app = express();
 const upload = multer(); // memory storage by default
 
 app.use(cors());
+const port = 5000; 
 
 app.get("/", (req, res) => {
   res.send("✅ OCR API is running");
@@ -29,22 +30,19 @@ app.post("/extract", upload.single("file"), async (req, res) => {
     const nameMatch = text.match(/[A-Z][a-z]+\s[A-Z][a-z]+/);
     const name = nameMatch ? nameMatch[0].trim() : null;
 
-    // ✅ Extract Company Name (search for words like “Pvt”, “Ltd”, “Solutions”, “Tech”, etc.)
-    const companyMatch = text.match(/([A-Z][A-Za-z&\s]+(?:Pvt|Ltd|Solutions|Company|Technologies|Tree))/i);
-    const companyname = companyMatch ? companyMatch[1].trim() : null;
+    // // ✅ Extract Company Name (search for words like “Pvt”, “Ltd”, “Solutions”, “Tech”, etc.)
+    // const companyMatch = text.match(/([A-Z][A-Za-z&\s]+(?:Pvt|Ltd|Solutions|Company|Technologies|Tree))/i);
+    // const companyname = companyMatch ? companyMatch[1].trim() : null;
 
-    // ✅ Extract Address (lines containing “Plot”, “Road”, “Street”, “Noida”, “India”, “Delhi”)
-    const addressMatch = text.match(/(?:Plot|Road|Street|Sector|Noida|Delhi|India)[^\n]+/i);
-    const companyaddress = addressMatch ? addressMatch[0].trim() : null;
+    // // ✅ Extract Address (lines containing “Plot”, “Road”, “Street”, “Noida”, “India”, “Delhi”)
+    // const addressMatch = text.match(/(?:Plot|Road|Street|Sector|Noida|Delhi|India)[^\n]+/i);
+    // const companyaddress = addressMatch ? addressMatch[0].trim() : null;
 
     res.json({
       extracted_text: text,
       structured_data: {
         name,
         email,
-        phone,
-        companyname,
-        companyaddress
       },
     });
 
@@ -54,4 +52,4 @@ app.post("/extract", upload.single("file"), async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT, () => console.log("🚀 Server running on http://localhost:5000"));
+app.listen(process.env.port, () => console.log("🚀 Server running on http://localhost:5000"));
